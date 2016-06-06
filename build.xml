@@ -1,0 +1,43 @@
+<project name="C0" default="all" >
+	<description>C0 compiler</description>
+	<property name="src" location="src"/>
+	<property name="build" location="build"/>
+	<property name="dist"  location="dist"/>	
+	<target name="clean" description="Clean up build directory">
+		<echo>Cleaning up...</echo>
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+	</target>
+	<target name="make.dirs" description="Make build directory">
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist}" />		
+	</target>	
+	<target name="compile" description="compile java" depends="make.dirs">
+		<javac destdir="${build}">
+			<src path="${src}" />
+        </javac>
+		<copy todir="${build}/i18n">
+			<fileset dir="i18n">				
+				<include name="**/*.properties"/>
+				<exclude name="**/.svn"/>
+			</fileset>
+		</copy>
+    </target>
+	<target name="all" description="Build" depends="compile">
+		<copy todir="${dist}">
+			<fileset dir="scripts">				
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>		
+		<jar destfile="${dist}/C0.jar">
+			<manifest>
+				<attribute name="Main-Class" value="ru.kai.c0.C0Main"/>
+			</manifest>
+			<fileset dir="${build}">
+				<include name="**/*.class"/>
+				<include name="**/*.properties"/>
+				<exclude name="**/.svn"/>
+			</fileset>
+		</jar>
+	</target>
+</project>
