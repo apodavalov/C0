@@ -92,12 +92,20 @@ public class C0Main
 				input = System.in;
 			if (output == null)
 				output = System.out;
-			
+
 			c0Parser = new C0Parser(input);
 			C0Program c0program = c0Parser.parse();
-		
-			I386CodeGenerator generator = new I386CodeGenerator(output,c0program);
-			generator.generate();
+
+			if (System.getProperty("os.name").equals("Linux"))
+			{
+			    LinuxI386CodeGenerator generator = new LinuxI386CodeGenerator(output,c0program);
+			    generator.generate();
+			}
+			else
+			{
+			    I386CodeGenerator generator = new I386CodeGenerator(output,c0program);
+			    generator.generate();
+			}
 		}
 		catch (FileNotFoundException e)
 		{
@@ -110,6 +118,6 @@ public class C0Main
 		catch (C0Exception e)
 		{
 			System.err.print(formatMessage(inputFileName, c0Parser.getCurrentLine(), e.getLocalizedMessage(), false));
-		}		
+		}
 	}
 }
