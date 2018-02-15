@@ -189,8 +189,8 @@ public class LinuxI386CodeGenerator
 		currentLabel = 0;
 		printStream.println("\t.text");
 		
-		printStream.println(".globl ._start");
-		printStream.println("._start:");
+		printStream.println(".globl _start");
+		printStream.println("_start:");
 		printStream.println("\tcall\t_main");
 		printStream.println("\tmovl\t%eax, %ebx");		
 		printStream.println("\txorl\t%eax, %eax");
